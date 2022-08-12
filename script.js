@@ -13,6 +13,16 @@ const winningPatterns = [
 ];
 
 const cells = [...document.querySelectorAll('#cells')];
+const displayWin = document.getElementById('player');
+const name1 = document.getElementById('Name1');
+const name2 = document.getElementById('Name2');
+const displayPlayers = document.getElementById('displayPlayers');
+
+document.getElementById('submit').addEventListener('click', (e) => {
+    
+    displayPlayers.textContent = `${name1.value} vs ${name2.value}`;
+});
+
 
 const renderBoard = (() => {
     board = [ '' ,'' , '',
@@ -58,14 +68,25 @@ playerTurns.addEventListener('click' , (e) => {
    
     win = renderBoard.checkWin();
 
-    const displayWin = document.getElementById('player');
-
     if (win !== null && win !== 'Tie'){
     
-        displayWin.textContent = `${win} has won the game`; 
+        (win === "✅") ? displayWin.textContent = `${name1.value} ${win} has won the game` :  displayWin.textContent = `${name2.value} ${win} has won the game`; 
     }
     else if(win ==='Tie')
     {
         displayWin.textContent = `${win}`
     }
 });
+
+const resBtn = document.getElementById('restartButton');
+resBtn.addEventListener('click', (e) => {
+    renderBoard.board.forEach( (val,index) => {
+        board[index] = "";
+        console.log(board[index]);
+        cells[index].textContent = "";
+    })
+    displayWin.textContent = '';
+    name1.value = '';
+    name2.value = '';
+    displayPlayers.textContent = '';
+})
